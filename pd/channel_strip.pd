@@ -1,9 +1,9 @@
-#N canvas 1121 316 660 506 10;
-#X obj 101 101 cnv 15 38 168 empty chanstrip\$1bgr empty -2 8 1 14
--233017 -66577 0;
+#N canvas 936 200 799 581 10;
+#X obj 101 101 cnv 15 38 168 empty chanstrip\$1bgr .1 -2 8 1 14 -233017
+-66577 0;
 #X obj 125 182 vu 8 80 empty empty -1 -8 0 10 -66577 -1 0 0;
-#X obj 105 181 vsl 15 80 0 127 0 0 empty empty empty 0 -9 0 10 -262144
--1 -1 5900 1;
+#X obj 105 181 vsl 15 80 0 127 0 0 chan\$1vol chan\$1volr empty 0 -9
+0 10 -262144 -1 -1 7900 1;
 #X obj 216 189 throw~ chanstripoutL;
 #X obj 295 211 throw~ chanstripoutR;
 #X obj 236 155 *~;
@@ -12,34 +12,78 @@
 #X obj 309 131 vline~;
 #X obj 241 103 *~;
 #X obj 256 82 vline~;
-#X obj 110 115 knob 20 20 0 127 0 0 pans panr Pan 3 25 1 9 -262144
--1 -1 0 1;
+#X obj 110 115 knob 20 20 0 127 0 0 chan\$1pan chan\$1panr Pan 3 25
+1 9 -262144 -1 -1 1150 1;
 #X msg 267 110 \$1 50;
 #X msg 309 110 \$1 50;
 #X msg 256 60 \$1 50;
-#X obj 41 -54 loadbang;
-#X msg 59 -3 63.5;
-#X obj 316 46 expr if($f1>63.5 \, 1-($f1-63.5)/63.5 \, 1) \; if($f1<63.5
+#X obj 43 -175 loadbang;
+#X msg 49 -57 63.5;
+#X obj 400 35 expr if($f1>63.5 \, 1-($f1-63.5)/63.5 \, 1) \; if($f1<63.5
 \, $f1/63.5 \, 1);
 #X obj 152 131 pvu~ 100 100;
-#X obj 130 101 bng 10 250 50 0 empty empty empty 17 7 0 10 -262144
--1 -1;
-#X msg 20 2 100;
+#X obj 130 101 bng 10 250 50 0 chan\$1reset chan\$1resetr empty 17
+7 0 10 -262144 -1 -1;
+#X msg 10 -52 100;
 #X obj 240 -2 adc~ \$1;
-#X obj 104 -91 i \$1;
-#X msg 104 -69 \; chanstrip\$1bgr label .\$1;
+#X obj 100 -125 i \$1;
+#X msg 100 -103 \; chanstrip\$1bgr label .\$1;
 #X obj 256 38 expr pow($f1/100 \, 2);
 #X text 118 169 -;
-#X obj 110 147 knob 20 20 0 127 0 0 pans panr FX 5 25 1 9 -262144 -1
--1 15 1;
-#X obj 443 195 throw~ fx_in_L;
-#X obj 464 218 throw~ fx_in_R;
-#X obj 421 162 *~;
-#X obj 479 159 *~;
-#X obj 444 137 vline~;
-#X msg 452 117 \$1 50;
-#X obj 452 96 expr pow($f1/100 \, 2);
-#X connect 2 0 24 0;
+#X obj 110 147 knob 20 20 0 127 0 0 chan\$1fx chan\$1fxr FX 5 25 1
+9 -262144 -1 -1 1400 1;
+#X obj 442 309 throw~ fx_in_L;
+#X obj 463 332 throw~ fx_in_R;
+#X obj 420 276 *~;
+#X obj 478 273 *~;
+#X obj 443 251 vline~;
+#X msg 451 231 \$1 50;
+#X obj 451 210 expr pow($f1/100 \, 2);
+#N canvas 1241 214 450 419 saver 0;
+#X obj 76 137 r chan\$1pan;
+#X obj 101 158 r chan\$1fx;
+#X obj 125 180 r chan\$1vol;
+#X obj 51 200 pack \$1 f f f;
+#X msg 51 112 bang;
+#X msg 78 247 set name chan\$1 \, add pan \$2 \, add fx \$3 \, add
+vol \$4;
+#X obj 86 355 textfile;
+#X obj 51 227 t b a;
+#X obj 51 293 pack \$1 s;
+#X obj 102 272 r sessiondir;
+#X msg 51 314 write \$2/chan\$1.conf;
+#X obj 51 89 inlet;
+#X connect 0 0 3 1;
+#X connect 1 0 3 2;
+#X connect 2 0 3 3;
+#X connect 3 0 7 0;
+#X connect 4 0 3 0;
+#X connect 5 0 6 0;
+#X connect 7 0 8 0;
+#X connect 7 1 5 0;
+#X connect 8 0 10 0;
+#X connect 9 0 8 1;
+#X connect 10 0 6 0;
+#X connect 11 0 4 0;
+#X restore 468 -134 pd saver;
+#X obj 49 3 s chan\$1panr;
+#X obj 90 -17 s chan\$1fxr;
+#X msg 90 -59 0;
+#X obj 10 24 s chan\$1volr;
+#X obj 256 16 r chan\$1vol;
+#X obj 400 15 r chan\$1pan;
+#X obj 451 189 r chan\$1fx;
+#X obj 338 -155 r chan\$1;
+#X obj 338 -134 route pan fx vol;
+#X obj 519 -66 print [WN] Unrecognised chan cmd;
+#X obj 468 -176 r global;
+#X obj 468 -155 route save;
+#X obj 400 -69 s chan\$1volr;
+#X obj 369 -91 s chan\$1fxr;
+#X obj 338 -113 s chan\$1panr;
+#X obj 7 -148 r chan\$1reset;
+#X obj 152 34 pvu~ 100 100;
+#X obj 152 54 s chan\$1prevu;
 #X connect 5 0 3 0;
 #X connect 5 0 18 0;
 #X connect 5 0 29 0;
@@ -51,28 +95,42 @@
 #X connect 9 0 5 0;
 #X connect 9 0 6 0;
 #X connect 10 0 9 1;
-#X connect 11 0 17 0;
 #X connect 12 0 7 0;
 #X connect 13 0 8 0;
 #X connect 14 0 10 0;
 #X connect 15 0 16 0;
 #X connect 15 0 20 0;
 #X connect 15 0 22 0;
-#X connect 16 0 11 0;
+#X connect 15 0 37 0;
+#X connect 16 0 35 0;
 #X connect 17 0 12 0;
 #X connect 17 1 13 0;
 #X connect 18 0 1 0;
-#X connect 19 0 16 0;
-#X connect 19 0 20 0;
-#X connect 20 0 2 0;
+#X connect 20 0 38 0;
 #X connect 21 0 9 0;
+#X connect 21 0 51 0;
 #X connect 22 0 23 0;
 #X connect 24 0 14 0;
-#X connect 26 0 33 0;
 #X connect 29 0 27 0;
 #X connect 30 0 28 0;
 #X connect 31 0 29 1;
 #X connect 31 0 30 0;
 #X connect 32 0 31 0;
 #X connect 33 0 32 0;
+#X connect 37 0 36 0;
+#X connect 39 0 24 0;
+#X connect 40 0 17 0;
+#X connect 41 0 33 0;
+#X connect 42 0 43 0;
+#X connect 43 0 49 0;
+#X connect 43 1 48 0;
+#X connect 43 2 47 0;
+#X connect 43 3 44 0;
+#X connect 45 0 46 0;
+#X connect 46 0 34 0;
+#X connect 50 0 37 0;
+#X connect 50 0 16 0;
+#X connect 50 0 20 0;
+#X connect 51 0 52 0;
+#X connect 51 0 1 1;
 #X coords 0 -1 1 1 40 170 2 100 100;
