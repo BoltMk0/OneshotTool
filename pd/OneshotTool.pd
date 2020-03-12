@@ -1,5 +1,5 @@
 #N canvas 528 49 1216 820 10;
-#N canvas 630 72 987 725 masterctl 1;
+#N canvas 630 72 987 725 masterctl 0;
 #X obj 51 35 notein;
 #X obj 51 56 pack f f;
 #X obj 51 77 s globalmidi;
