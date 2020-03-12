@@ -17,14 +17,14 @@
 #X obj 331 807 *~;
 #X obj 273 857 throw~ master_out_L;
 #X obj 332 836 throw~ master_out_R;
-#X obj 101 119 cnv 15 158 100 empty sfx\$1backdrop bgm_pt1.wav 3 54
-1 9 -261689 -1 0;
+#X obj 101 119 cnv 15 158 100 empty sfx\$1backdrop empty 3 54 1 9 -228856
+-1 0;
 #X obj 107 199 tgl 15 0 sfx\$1midilearn sfx\$1midilearnr MidiLearn
 17 7 1 10 -262144 -1 -1 0 1;
 #X obj 107 179 bng 15 250 50 0 sfx\$1loadtrack sfx\$1loadtrackr LoadTrack
 17 7 1 10 -262144 -1 -1;
 #X obj 110 138 knob 25 25 0 127 0 0 sfx\$1volume sfx\$1volumer Volume
-0 -8 1 8 -225271 -261234 -1 500 1;
+0 -8 1 8 -225271 -261234 -166441 0 1;
 #X obj 189 138 knob 25 25 0 127 0 0 sfx\$1fxpre sfx\$1fxprer Pre 5
 9 1 8 -262144 -203904 -1 0 1;
 #X obj 384 66 r to_midi;
@@ -232,7 +232,7 @@
 #X obj 481 667 tabread4~ sfx\$1L;
 #X obj 547 694 tabread4~ sfx\$1R;
 #X obj 565 714 r sfx\$1mono;
-#X obj 122 551 s sfx\$1playcmd;
+#X obj 118 599 s sfx\$1playcmd;
 #X obj 122 462 r sfx\$1midilink;
 #X obj 799 171 print [WN] Unrecognised sfx command;
 #X obj 408 111 print sfx\$1;
@@ -241,7 +241,7 @@
 #X obj 897 886 *~;
 #X obj 995 878 *~;
 #X obj 223 138 knob 25 25 0 127 0 0 sfx\$1fxpost sfx\$1fxpostr Post
-5 9 1 8 -262144 -203904 -1 1800 1;
+5 9 1 8 -262144 -203904 -1 1000 1;
 #X text 211 120 FX;
 #X obj 431 198 s sfx\$1fxprer;
 #X obj 477 219 s sfx\$1fxpostr;
@@ -275,9 +275,9 @@
 #X obj 166 868 throw~ sfx_out_R;
 #X obj 243 203 bng 15 250 50 0 empty empty T 5 7 0 10 -262144 -1 -1
 ;
-#X obj 227 102 cnv 15 30 15 empty sfx\$1midicnv _ 5 7 1 14 -260525
+#X obj 227 102 cnv 15 30 15 empty sfx\$1midicnv _60 5 7 1 14 -262144
 -1 0;
-#X obj 159 102 cnv 15 80 15 empty sfx\$1playingcnv P 4 7 1 14 -260525
+#X obj 159 102 cnv 15 80 15 empty sfx\$1playingcnv P 4 7 1 14 -262144
 -262144 0;
 #X msg 1334 299 1;
 #X obj 1232 544 vline~;
@@ -300,12 +300,12 @@
 #X obj 1306 241 expr if($f1==0 \, 1 \, 0);
 #X obj 1176 329 t b f;
 #X obj 1171 353 expr 1-$f1&&$f2;
-#X obj 126 530 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 1
+#X obj 122 578 tgl 15 0 empty empty empty 17 7 0 10 -262144 -1 -1 0
 1;
 #X obj 151 138 knob 25 25 0 127 0 0 sfx\$1fade sfx\$1fader Fade 4 -8
-1 8 -225271 -1 -1 2100 1;
+1 8 -225271 -1 -1 800 1;
 #X obj 191 199 tgl 15 0 sfx\$1loop sfx\$1loopr Loop 17 7 1 10 -262144
--1 -1 1 1;
+-1 -1 0 1;
 #X obj 1438 540 vline~;
 #X obj 1438 518 pack f f;
 #X obj 1482 432 expr $f1*$f1;
@@ -343,6 +343,7 @@
 #X obj 385 132 route volume fxpre fxpost filename mono fade loop;
 #X obj 610 157 s sfx\$1fader;
 #X obj 673 201 s sfx\$1loopr;
+#X msg 122 528 bang;
 #X connect 0 0 47 0;
 #X connect 1 0 5 0;
 #X connect 1 1 4 0;
@@ -372,7 +373,7 @@
 #X connect 24 0 36 0;
 #X connect 28 0 29 0;
 #X connect 29 0 30 0;
-#X connect 30 1 116 0;
+#X connect 30 1 156 0;
 #X connect 32 0 14 0;
 #X connect 33 0 34 0;
 #X connect 33 1 54 0;
@@ -497,4 +498,5 @@
 #X connect 153 5 154 0;
 #X connect 153 6 155 0;
 #X connect 153 7 33 0;
+#X connect 156 0 116 0;
 #X coords 0 -1 1 1 160 120 1 100 100;
